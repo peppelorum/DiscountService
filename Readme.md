@@ -17,14 +17,14 @@ My intial idea was to build a micro service architecture based on Azure Function
 * `cd DiscountService`
 * `dotnet restore`
 * `dotnet ef database update`
-* `dotnet run`
+* `dotnet watch run`
 
 or in one row:
-* `cd DiscountService && dotnet restore && dotnet ef database update && dotnet run`
+* `cd DiscountService && dotnet restore && dotnet ef database update && dotnet watch run`
 
 ## To test the endpoints
 
-* `dotnet run` should have fired up a browser, head over to `/swagger/` and you got an glance of the API.
+* `dotnet watch run` should have fired up a browser, head over to `/swagger/` and you got an glance of the API.
 * There is already a store created with the ID of `3fa85f64-5717-4562-b3fc-2c963f66afa6`
 * Create some new discount codes with the post endpoint, fill in how many discount codes you want
 * Use the get endpoint to retrieve the discount code (no matter what I cant get Swagger/Swashbuckle to fill in a GUID in the UI, so paste this in StoreId: `3fa85f64-5717-4562-b3fc-2c963f66afa6`)
