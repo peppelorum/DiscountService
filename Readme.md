@@ -29,11 +29,11 @@ My intial idea was to build a micro service architecture based on Azure Function
 ## Thoughts and architectural considerations
 
 This is a very small service and if it would have been for real I would have modeled it a bit different. One thing is that the store owners probably want to create campaigns and follow how they are used. So if you create 100 codes an email campaign for certain users it would be good to keep track of how well that campaign fans out.
-One thing that could be interesting could be to able to create general discount codes that can be used by multiple people. Here it would also be good with a good analytics tool to see the progress. And for those kind of campaigns you also need to beale to deactivate them.
+One thing that could be interesting could be to able to create general discount codes that can be used by multiple people. Here it would also be good with a good analytics tool to see the progress. And for those kind of campaigns you also need to able to deactivate them.
 
 ### APIs
 
-This is a very simple system and I see very little advantages of using something other than a regular REST approach. It's a limited set of services (and maybe just our own) that will use the service so we know the use cases that they have and can model the DTOs to fit our own needs.
+This is a very simple system and I see very little advantages of using something other than a regular REST approach. It's a limited set of services (and maybe just our own) that will use the service so we know the use cases that they have and can model the DTOs to fit our own needs. REST is also very easy to cache (if needed).
 
 ### Authentication (and authorization)
 
