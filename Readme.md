@@ -14,9 +14,12 @@ My intial idea was to build a micro service architecture based on Azure Function
 ## How to get started
 
 * Clone repo and run
+* `cd DiscountService`
 * `dotnet restore`
 * `dotnet ef database update`
 * `dotnet run`
+or in one row:
+* `cd DiscountService && dotnet restore && dotnet ef database update && dotnet run`
 
 ## To test the endpoints
 
