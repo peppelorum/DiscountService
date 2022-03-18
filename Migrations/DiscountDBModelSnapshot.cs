@@ -56,7 +56,7 @@ namespace DiscountCodes6.Migrations
                         .IsRequired()
                         .HasColumnType("TEXT");
 
-                    b.Property<DateTime>("Updated")
+                    b.Property<DateTime?>("Updated")
                         .HasColumnType("TEXT");
 
                     b.Property<Guid>("UserId")
@@ -72,7 +72,6 @@ namespace DiscountCodes6.Migrations
                             Id = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
                             Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             ShortName = "Cheese",
-                            Updated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
                             UserId = new Guid("00000000-0000-0000-0000-000000000000")
                         });
                 });

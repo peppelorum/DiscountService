@@ -5,11 +5,11 @@ This is a quick example of how to set up a discount service. It's based on dotne
 ## Assumptions
 
 I assume that the kind of discount codes that the store want to create are individual codes and not general codes (eg same code for multiple customers).
-I assume that the load from the store owners when creating the discount codes will be limited, and the heavy load will be from the users requesting discount codes. One way of solving this would be to do a database route that routes write and read to different databases (kinda like how it's possible in Django). This way you can still use a regular SQL database without much trouble. But if both writes and reads is going up it could easily be swapped for some kind of NoSQL-database that is better at scaling since BASE is easier to scale than ACID.
+I assume that the load from the store owners when creating the discount codes will be limited, and the heavy load will be from the users requesting discount codes.
 
 ## Initial idea (and maybe proper) to solve this problem
 
-My intial idea was to build a micro service architecture based on Azure Functions. Each endpoint would be an Azure Function responsible for one task and one task only, creating and retrieving discount codes. But due to difficulties with getting Azure credentials for the specific functions I had to scrap this idea. If I had more time to making this as a proper product this would be the way to go.
+My intial idea was to build a micro service architecture based on Azure Functions (or AWS Lambda). Each endpoint would be an Azure Function responsible for one task and one task only, creating and retrieving discount codes. But due to difficulties with getting Azure credentials for the specific functions I had to scrap this idea. If I had more time to making this as a proper product this would be the way to go.
 One way of optmizing this idea would be to write some simple Rust functions and deploy it to AWS Lambda.
 
 ## How to get started
@@ -30,5 +30,9 @@ One way of optmizing this idea would be to write some simple Rust functions and 
 ## Thoughts and architectural considerations
 
 This is a very small service and if it would have been for real I would have modeled it a bit different. One thing is that the store owners probably want to create campaigns and follow how they are used. So if you create 100 codes an email campaign for certain users it would be good to keep track of how well that campaign fans out.
-One thing that could be interesting could be to able to create general discount codes that can be used the mutliple people. Here it would also be good with a good analytics tool to see the progress. And for those kind of campaigns you also need to beale to deactivate them.
-My intial idea would have been really sweet to implement, but due to Azure giving me a hard time that idea have to wait a bit =)
+One thing that could be interesting could be to able to create general discount codes that can be used by multiple people. Here it would also be good with a good analytics tool to see the progress. And for those kind of campaigns you also need to beale to deactivate them.
+
+Regarding the scalability I'm thinking about using a database route that routes write and read to different databases (kinda like how it's possible in Django). This way you can still use a regular SQL database without much trouble. But if both writes and reads are going up it could easily be swapped for some kind of NoSQL-database that is better at scaling since BASE is easier to scale than ACID.
+
+My intial idea with Azure Functions would have been really sweet to implement, but due to Azure giving me a hard time that idea have to wait a bit =)
+
