@@ -7,14 +7,7 @@ namespace DiscountCodes.DTOs
 {
     public class DiscountCodeCreateDTO
     {
-        public Guid id { get; set; }
         public Guid StoreId { get; set; }
-        public List<String> Codes { get; set; }
-
-        [DefaultValue("")]
-        public List<String>? CodesCreated { get; set; }
-
-        [DefaultValue("")]
-        public List<String>? CodesFailed { get; set; }
+        public int NumberOfCodes { get; set; }
     }
 }

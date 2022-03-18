@@ -8,5 +8,6 @@ namespace DiscountCodes.Models
         public DateTime Created { get; set; }
         public DateTime Updated { get; set; }
         public Guid UserId { get; set; }
+        public string ShortName { get; set; }
     }
 }

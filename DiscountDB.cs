@@ -11,17 +11,12 @@ public class DiscountDB : DbContext
         DbPath = System.IO.Path.Join(path, "discounts.db");
     }
     public DbSet<DiscountCode> DiscountCodes { get; set; }
-    public DbSet<DiscountUse> DiscountUses { get; set; }
+    public DbSet<Store> Stores { get; set; }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        // modelBuilder.Entity<Student>().HasNoKey();
-        // modelBuilder.Entity<DiscountCodeJob>().OwnsOne(x => x.Codes);
-        modelBuilder.Entity<DiscountCodeJob>()
-        .Property(e => e.Codes)
-        .HasConversion(
-        v => JsonConvert.SerializeObject(v),
-        v => JsonConvert.DeserializeObject<List<string>>(v));
+        modelBuilder.Entity<Store>().HasData(
+            new Store { Id = Guid.Parse("3fa85f64-5717-4562-b3fc-2c963f66afa6"), ShortName = "Cheese" });
     }
     // The following configures EF to create a Sqlite database file in the
     // special "local" folder for your platform.

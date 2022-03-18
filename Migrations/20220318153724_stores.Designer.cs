@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiscountCodes6.Migrations
 {
     [DbContext(typeof(DiscountDB))]
-    partial class DiscountDBModelSnapshot : ModelSnapshot
+    [Migration("20220318153724_stores")]
+    partial class stores
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.3");
@@ -20,12 +22,6 @@ namespace DiscountCodes6.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ClaimedByUserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("ClaimedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Code")
@@ -41,6 +37,29 @@ namespace DiscountCodes6.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DiscountCodes");
+                });
+
+            modelBuilder.Entity("DiscountCodes.Models.DiscountUse", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("DiscountCodeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Used")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DiscountUses");
                 });
 
             modelBuilder.Entity("DiscountCodes.Models.Store", b =>

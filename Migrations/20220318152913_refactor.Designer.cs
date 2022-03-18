@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -9,9 +10,10 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace DiscountCodes6.Migrations
 {
     [DbContext(typeof(DiscountDB))]
-    partial class DiscountDBModelSnapshot : ModelSnapshot
+    [Migration("20220318152913_refactor")]
+    partial class refactor
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder.HasAnnotation("ProductVersion", "6.0.3");
@@ -20,12 +22,6 @@ namespace DiscountCodes6.Migrations
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("TEXT");
-
-                    b.Property<Guid>("ClaimedByUserId")
-                        .HasColumnType("TEXT");
-
-                    b.Property<DateTime?>("ClaimedDate")
                         .HasColumnType("TEXT");
 
                     b.Property<string>("Code")
@@ -41,6 +37,29 @@ namespace DiscountCodes6.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("DiscountCodes");
+                });
+
+            modelBuilder.Entity("DiscountCodes.Models.DiscountUse", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("DiscountCodeId")
+                        .HasColumnType("TEXT");
+
+                    b.Property<DateTime>("Used")
+                        .HasColumnType("TEXT");
+
+                    b.Property<Guid>("UserId")
+                        .HasColumnType("TEXT");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("DiscountUses");
                 });
 
             modelBuilder.Entity("DiscountCodes.Models.Store", b =>
@@ -65,16 +84,6 @@ namespace DiscountCodes6.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Stores");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = new Guid("3fa85f64-5717-4562-b3fc-2c963f66afa6"),
-                            Created = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            ShortName = "Cheese",
-                            Updated = new DateTime(1, 1, 1, 0, 0, 0, 0, DateTimeKind.Unspecified),
-                            UserId = new Guid("00000000-0000-0000-0000-000000000000")
-                        });
                 });
 #pragma warning restore 612, 618
         }

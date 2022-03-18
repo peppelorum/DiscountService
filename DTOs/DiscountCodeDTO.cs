@@ -6,6 +6,6 @@ namespace DiscountCodes.DTOs
     {
         public Guid Id { get; set; }
         public Guid StoreId { get; set; }
-        public List<string> Codes { get; set; }
+        public string? Code { get; set; }
     }
 }

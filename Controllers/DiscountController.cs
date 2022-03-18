@@ -21,81 +21,66 @@ namespace DiscountCodes.Controllers
     [Route("[controller]")]
     public class DiscountController : ControllerBase
     {
-        private readonly ILogger<DiscountController> _logger;
-        private readonly IMapper _mapper;
-        private static IConfiguration _configuration;
-        // private static readonly List<DiscountCode> _petsInMemoryStore = new List<DiscountCode>();
         private readonly DiscountDB _discountDB;
 
-        public DiscountController(ILogger<DiscountController> logger, DiscountDB discountDB)
+        public DiscountController(DiscountDB discountDB)
         {
-            _logger = logger;
             _discountDB = discountDB;
         }
 
-
-        [HttpGet("{id:Guid}/{userId:Guid}")]
+        /// <summary>
+        /// Retrieves a discount code for the given store and returns it. The discount code is claimed by the user and can't be used any more.
+        /// </summary>
+        /// <param name="storeId"></param>
+        /// <returns></returns>
+        [HttpGet("{storeId:Guid}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public ActionResult<DiscountCode> GetById(Guid id, Guid userId)
+        public ActionResult<DiscountCode> GetByStoreId(Guid storeId)
         {
-            var code = _discountDB.DiscountCodes.FirstOrDefault(p => p.Id == id);
-
+            var userId = Guid.Parse("3FA85F64-5717-4562-B3FC-2C963F66AFA6");
+            var code = _discountDB.DiscountCodes.FirstOrDefault(p => p.StoreId == storeId && p.ClaimedDate == null);
             if (code == null) {
-                return NotFound();
-            }
-            var hasBeenUsed = _discountDB.DiscountUses.Any(x => x.DiscountCodeId == code.Id && x.UserId == userId);
-
-            Console.WriteLine("#####"+ hasBeenUsed);
-
-            if (hasBeenUsed) {
-                return NotFound();
+                return NotFound();    //Fail early on error
             }
 
-            var discountUse = new DiscountUse() {
-                    Id = Guid.NewGuid(),
-                    Created = DateTime.Now,
-                    UserId = userId,
-                    DiscountCodeId = id
-                };
+            code.ClaimedByUserId = userId;
+            code.ClaimedDate = DateTime.Now;
 
-            _discountDB.DiscountUses.Add(discountUse);
             _discountDB.SaveChanges();
 
             return code;
         }
 
+        /// <summary>
+        /// Creates a series of discount codes based on store and number of wanted codes.
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public ActionResult<DiscountCodeDTO> Create(DiscountCodeCreateDTO code)
         {
-            List<string> failed = new List<string>();
-            List<string> created = new List<string>();
+            var store = _discountDB.Stores.FirstOrDefault(p => p.Id == code.StoreId);
+            if (store == null) {
+                return NotFound("StoreID is invalid.");    //Fail early on error
+            }
+            List<DiscountCode> newcodes = new List<DiscountCode>();
 
-            foreach (var item in code.Codes)
+            // Tn a real product I would have extracted this piece into a sepearate worker to make the generation of the codes totally asynchronous
+            for (int i = 0; i < code.NumberOfCodes; i++)
             {
-                var exists = _discountDB.DiscountCodes.Any(x => x.Code == item);
-
-                if (exists) {
-                    failed.Add(item);
-                } else {
-                    created.Add(item);
-                }
-
                 var discountCode = new DiscountCode() {
                     Id = Guid.NewGuid(),
-                    Code = item,
+                    Code = $"{store.ShortName}-{i}", //Extremely simple generation of the discount codes...
                     Created = DateTime.Now,
                     StoreId = code.StoreId
                 };
-
-                _discountDB.DiscountCodes.Add(discountCode);
+                newcodes.Add(discountCode);
             }
 
+            _discountDB.DiscountCodes.AddRange(newcodes);
             _discountDB.SaveChanges();
-
-            code.CodesCreated = created;
-            code.CodesFailed = failed;
 
             return Created("/", code);
         }
