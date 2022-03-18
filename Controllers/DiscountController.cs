@@ -32,7 +32,7 @@ namespace DiscountCodes.Controllers
         /// Retrieves a discount code for the given store and returns it. The discount code is claimed by the user and can't be used any more.
         /// </summary>
         /// <param name="storeId"></param>
-        /// <returns></returns>
+        /// <returns>The discount code object</returns>
         [HttpGet("{storeId:Guid}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         public ActionResult<DiscountCode> GetByStoreId(Guid storeId)
@@ -55,7 +55,7 @@ namespace DiscountCodes.Controllers
         /// Creates a series of discount codes based on store and number of wanted codes.
         /// </summary>
         /// <param name="code"></param>
-        /// <returns></returns>
+        /// <returns>The created discount code</returns>
         [HttpPost]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
