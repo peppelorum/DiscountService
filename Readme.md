@@ -46,7 +46,7 @@ The code sample has no authentication what so ever but could be easily implement
 ### Async
 
 The code as it is today are totally synchronous and that won't scale. One easy way of making it async (and scale) is to offload the creation of discount codes part to a worker, so the post API would just create a new message in a broker queue (like RabbitMQ etc) and then be done. This also ties nicely together with my initial idea about using Azure Functions, and if you are into running Kubernetes it's also possible to run Azure Functions there as well. And from a cost perspective Azure Functions is a sweet spot.
-One way of optmizing this even furhter would be to write some simple Rust functions and deploy it to AWS Lambda. [https://torbjornzetterlund.com/how-environmental-friendly-is-programming-languages/](A recent paper) has shown that Rust has almost the same speed as C, with C# a bit behind and Python waaay behind so both from a cost perspective but also from an environmental perspective it makes sense. Quicker execution also means that each worker can do more work in same time.
+One way of optmizing this even furhter would be to write some simple Rust functions and deploy it to AWS Lambda. [A recent paper](https://torbjornzetterlund.com/how-environmental-friendly-is-programming-languages/) has shown that Rust has almost the same speed as C, with C# a bit behind and Python waaay behind so both from a cost perspective but also from an environmental perspective it makes sense. Quicker execution also means that each worker can do more work in the same time.
 
 ### Data validation
 
