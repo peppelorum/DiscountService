@@ -62,3 +62,5 @@ One good thing about choosing Dotnet 6 is that it's much easier to do testing du
 
 My intial idea with Azure Functions would have been really sweet to implement, but due to Azure giving me a hard time that idea have to wait a bit =)
 
+UPDATE: Okay I couldn't quite like let it be, so I [made a service in Rust to be run on AWS Lambda](https://github.com/peppelorum/DiscountServiceInRustOnAWS)
+
